@@ -21,7 +21,7 @@
 
 **参考repo:** [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)
 
-在此非常感谢` Xintao `贡献的[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)Pytorch代码，提高了本repo复现论文的效率。
+在此非常感谢` Xintao `贡献的[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)`Pytorch`代码，提高了本repo复现论文的效率。
 
 **aistudio体验教程:** [地址](url)
 
@@ -29,6 +29,10 @@
 ## 2. 数据集和复现精度
 
 本项目训练所用的数据集为[DIV2K](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip)，[Flicke2K](https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar)和[OST](https://openmmlab.oss-cn-hangzhou.aliyuncs.com/datasets/OST_dataset.zip)。
+
+| |steps|opt|image_size|batch_size|dataset|memory|card|mIou|config|
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+|ESPNet|120k|adam|1024x512|4|CityScapes|32G|4|0.6417|[espnet_cityscapes_1024x512_120k.yml](configs/espnet/espnet_cityscapes_1024x512_120k.yml)|
 
 格式如下：
 
