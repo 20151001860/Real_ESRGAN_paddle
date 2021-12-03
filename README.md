@@ -11,10 +11,10 @@
 ```
 
 **注意：** 目录可以使用[gh-md-toc](https://github.com/ekalinin/github-markdown-toc)生成
-
 ## 1. 简介
+![Real-ESRGAN](https://user-images.githubusercontent.com/52402835/144571624-a29d9a88-d08a-4891-8356-2d9d62798774.jpg)
 
-本论文简单的介绍模型，以及模型的主要架构或主要功能，如果能给出效果图，可以在简介的下方直接贴上图片，展示模型效果。然后另起一行，按如下格式给出论文名称及链接、参考代码链接、aistudio体验教程链接。
+本项目基于深度学习框架PaddlePaddle对Real-ESRGAN网络进行复现。Real-ESRGAN网络属于生成对抗网络，包括基于ESRGAN的生成器和基于U-Net的判别器，可对真实世界的复杂图像进行超分辨率重建。简单的介绍模型，以及模型的主要架构或主要功能，如果能给出效果图，可以在简介的下方直接贴上图片，展示模型效果。然后另起一行，按如下格式给出论文名称及链接、参考代码链接、aistudio体验教程链接。
 
 注意：在给出参考repo的链接之后，建议添加对参考repo的开发者的致谢。
 
@@ -22,14 +22,14 @@
 
 **参考repo:** [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)
 
-在此非常感谢`$Xintao$`等人贡献的[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)，提高了本repo复现论文的效率。
+在此非常感谢`$ Xintao $`等人贡献的[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)，提高了本repo复现论文的效率。
 
 **aistudio体验教程:** [地址](url)
 
 
 ## 2. 数据集和复现精度
 
-给出本repo中用到的数据集的链接，然后按格式描述数据集大小与数据集格式。
+本项目训练所用的数据集为DF2K和OST。给出本repo中用到的数据集的链接，然后按格式描述数据集大小与数据集格式。
 
 格式如下：
 
