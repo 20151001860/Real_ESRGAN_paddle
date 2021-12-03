@@ -31,18 +31,9 @@
 本项目训练所用的数据集为[DIV2K](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip)，[Flickr2K](https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar)和[OST](https://openmmlab.oss-cn-hangzhou.aliyuncs.com/datasets/OST_dataset.zip)。
 
 |数据集|大小|下载链接|数据格式|
-| :---: | :---: | :---: | :---: |
 |DIV2K|120k|[DIV2K](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip)|`png`|
-| :---: | :---: | :---: | :---: |
 |Flickr2K|120k|[Flickr](https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar)|`png`|
-| :---: | :---: | :---: | :---: |
 |OST|120k|[OST](https://openmmlab.oss-cn-hangzhou.aliyuncs.com/datasets/OST_dataset.zip)|`png`|
-
-格式如下：
-
-- 数据集大小：关于数据集大小的描述，如类别，数量，图像大小等等
-- 数据集下载链接：链接地址
-- 数据格式：关于数据集格式的说明
 
 基于上述数据集，给出论文中精度、参考代码的精度、本repo复现的精度、数据集名称、模型下载链接（模型权重和对应的日志文件推荐放在**百度云网盘**中，方便下载）、模型大小，以表格的形式给出。如果超参数有差别，可以在表格中新增一列备注一下。
 
@@ -56,9 +47,8 @@
 
 首先介绍下支持的硬件和框架版本等环境的要求，格式如下：
 
-- 硬件：xxx
-- 框架：
-  - PaddlePaddle >= 2.1.0
+- 硬件：Tesla V100 GPU
+- 框架：PaddlePaddle >= 2.2.0
 
 然后介绍下怎样安装PaddlePaddle以及对应的requirements。
 
