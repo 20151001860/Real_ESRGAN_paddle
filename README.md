@@ -1,4 +1,5 @@
-# 论文名称
+# Real-ESRGAN: Training Real-World Blind Super-Resolution with Pure Synthetic Data
+
 
 ## 目录
 
@@ -13,15 +14,15 @@
 
 ## 1. 简介
 
-简单的介绍模型，以及模型的主要架构或主要功能，如果能给出效果图，可以在简介的下方直接贴上图片，展示模型效果。然后另起一行，按如下格式给出论文名称及链接、参考代码链接、aistudio体验教程链接。
+本论文简单的介绍模型，以及模型的主要架构或主要功能，如果能给出效果图，可以在简介的下方直接贴上图片，展示模型效果。然后另起一行，按如下格式给出论文名称及链接、参考代码链接、aistudio体验教程链接。
 
 注意：在给出参考repo的链接之后，建议添加对参考repo的开发者的致谢。
 
-**论文:** [title](url)
+**论文:** [Real-ESRGAN: Training Real-World Blind Super-Resolution with Pure Synthetic Data](https://paperswithcode.com/paper/real-esrgan-training-real-world-blind-super)
 
-**参考repo:** [repo name](url)
+**参考repo:** [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)
 
-在此非常感谢`$参考repo的 github id$`等人贡献的[repo name](url)，提高了本repo复现论文的效率。
+在此非常感谢`$Xintao$`等人贡献的[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)，提高了本repo复现论文的效率。
 
 **aistudio体验教程:** [地址](url)
 
