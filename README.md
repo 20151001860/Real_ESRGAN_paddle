@@ -22,7 +22,7 @@
 
 在此非常感谢` Xintao `贡献的[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)的`Pytorch`代码，提高了本repo复现论文的效率。
 
-**aistudio体验教程:** [地址](url)
+**aistudio体验教程:** [地址](https://aistudio.baidu.com/aistudio/projectdetail/3156903)
 
 
 ## 2. 数据集准备
@@ -36,6 +36,7 @@
 |OST|120k|[OST](https://openmmlab.oss-cn-hangzhou.aliyuncs.com/datasets/OST_dataset.zip)|`png`|
 
 ### 2.1 产生多尺度图片
+
 
 ### 2.2 裁剪成子图片
 
@@ -58,10 +59,8 @@
 # clone this repo
 git clone https://github.com/20151001860/Real_ESRGAN_paddle.git
 cd Real_ESRGAN_paddle
-
 ```
 **安装第三方库**
-
 ```
 pip install -r requirements.txt
 ```
@@ -94,6 +93,25 @@ python inference_realesrgan.py
 
 ### 4.1 代码结构
 
+```
+├─data                          
+├─datasets                         
+├─experiments                           
+├─inputs       
+├─loss
+├─models
+├─options
+├─results
+├─tb_logger
+├─utils
+│  generate_meta_info.py                     
+│  inference_realesrgan.py                        
+│  README.md                        
+│  README_CN.md                     
+│  requirements.txt                                       
+│  train.py                                     
+
+```
 需要用一小节描述整个项目的代码结构，用一小节描述项目的参数说明，之后各个小节详细的描述每个功能的使用说明。
 
 ### 4.2 参数说明
