@@ -51,6 +51,8 @@
 
 - 硬件：Tesla V100 GPU
 - 框架：PaddlePaddle >= 2.2.0
+
+
 **克隆本项目**
 ```
 # clone this repo
