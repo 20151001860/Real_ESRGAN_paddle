@@ -76,7 +76,7 @@ pip install -r requirements.txt
 
 为了训练`Real-ESRGAN`模型，我们采用与原论文一致的初始化模型参数`ESRGAN_SRx4_DF2KOST_official-ff704c30.pth`，并将其转化为Paddle格式的权重`ESRGAN_SRx4_DF2KOST_official-ff704c30.pdparams`进行训练。
 ```
-python train.py
+python train.py --opt options/train_realesrgan_x4plus.yml
 ```
 训练保存的模型和日志可见：
 
@@ -87,7 +87,6 @@ python inference_realesrgan.py
 ```
 测试使用7张图片，结果如下：
 
-需要给出快速训练、预测、使用预训练模型预测、模型导出、模型基于inference模型推理的使用说明，同时基于demo图像，给出预测结果和推理结果，并将结果打印或者可视化出来。
 
 ## 4. 代码结构与详细说明
 
