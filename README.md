@@ -61,7 +61,9 @@
 ### 3.2 快速开始
 
 **训练**
-为了训练`Real-ESRGAN`模型，我们采用与原论文一致的初始化模型`ESRGAN_SRx4_DF2KOST_official-ff704c30.pth`，并将其转化为Paddle格式的权重`ESRGAN_SRx4_DF2KOST_official-ff704c30.pdparams`进行训练。
+
+
+为了训练`Real-ESRGAN`模型，我们采用与原论文一致的初始化模型参数`ESRGAN_SRx4_DF2KOST_official-ff704c30.pth`，并将其转化为Paddle格式的权重`ESRGAN_SRx4_DF2KOST_official-ff704c30.pdparams`进行训练。
 ```
 python train.py
 ```
