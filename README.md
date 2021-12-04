@@ -51,8 +51,18 @@
 
 - 硬件：Tesla V100 GPU
 - 框架：PaddlePaddle >= 2.2.0
+**克隆本项目**
+```
+# clone this repo
+git clone https://github.com/20151001860/Real_ESRGAN_paddle.git
+cd Real_ESRGAN_paddle
 
+```
 **安装第三方库**
+
+```
+pip install -r requirements.txt
+```
 然后介绍下怎样安装PaddlePaddle以及对应的requirements。
 
 建议将代码中用到的非python原生的库，都写在requirements.txt中，在安装完PaddlePaddle之后，直接使用`pip install -r requirements.txt`安装依赖即可。
