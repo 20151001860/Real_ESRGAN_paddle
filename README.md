@@ -137,3 +137,14 @@ python inference_realesrgan.py
 
 
 如果您有兴趣，也欢迎为项目集成更多的TIPC测试链条及相关的代码文档，非常感谢您的贡献。
+## 5.模型信息
+相关信息:
+
+| 信息 | 描述 |
+| --- | --- |
+| 作者 | 勇敢土豆不怕困难！|
+| 日期 | 2021年12月 |
+| 框架版本 | PaddlePaddle==2.2.0 |
+| 应用场景 | 超分辨率重建 |
+| 硬件支持 | GPU、CPU |
+| 在线体验 | [notebook](https://aistudio.baidu.com/aistudio/projectdetail/3156903)|
