@@ -35,12 +35,10 @@
 |Flickr2K|120k|[Flickr](https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar)|`png`|
 |OST|120k|[OST](https://openmmlab.oss-cn-hangzhou.aliyuncs.com/datasets/OST_dataset.zip)|`png`|
 
-### 2.1 产生多尺度图片
+## 3. 复现效果
+基于上述数据集的训练结果，在七张图片上的测试结果如下：
 
-
-### 2.2 裁剪成子图片
-
-基于上述数据集，给出论文中精度、参考代码的精度、本repo复现的精度、数据集名称、模型下载链接（模型权重和对应的日志文件推荐放在**百度云网盘**中，方便下载）、模型大小，以表格的形式给出。如果超参数有差别，可以在表格中新增一列备注一下。
+基于上述数据集，本repo复现的精度、数据集名称、模型下载链接（模型权重和对应的日志文件推荐放在**百度云网盘**中，方便下载）、模型大小，以表格的形式给出。如果超参数有差别，可以在表格中新增一列备注一下。
 
 如果涉及到`轻量化骨干网络验证`，需要新增一列骨干网络的信息。
 
@@ -88,9 +86,7 @@ python inference_realesrgan.py
 测试使用7张图片，结果如下：
 
 
-## 4. 代码结构与详细说明
-
-### 4.1 代码结构
+## 4. 代码结构
 
 ```
 ├─data                          
@@ -113,30 +109,6 @@ python inference_realesrgan.py
 ```
 需要用一小节描述整个项目的代码结构，用一小节描述项目的参数说明，之后各个小节详细的描述每个功能的使用说明。
 
-### 4.2 参数说明
-
-以表格的形式，给出当前的参数列表、含义、类型、默认值等信息。
-
-### 4.3 基础使用
-
-配合部分重要配置参数，介绍模型训练、评估、预测、导出等过程。
-
-### 4.4 模型部署
-
-给出当前支持的推理部署方式以及相应的参考文档链接。
-
-### 4.5 TIPC测试支持
-
-这里需要给出TIPC的目录链接。
-
-**注意：** 这里只需提供TIPC基础测试链条中模式`lite_train_lite_infer`的代码与文档即可。
-
-
-* 更多关于TIPC的介绍可以参考：[飞桨训推一体认证（TIPC）文档](https://github.com/PaddlePaddle/PaddleOCR/blob/dygraph/test_tipc/readme.md)
-* 关于Linux端基础链条测试接入的代码与文档说明可以参考：[基础链条测试接入规范](https://github.com/PaddlePaddle/models/blob/tipc/docs/tipc_test/development_specification_docs/train_infer_python.md)，[PaddleOCR Linux端基础训练预测功能测试文档](https://github.com/PaddlePaddle/PaddleOCR/blob/dygraph/test_tipc/docs/test_train_inference_python.md)
-
-
-如果您有兴趣，也欢迎为项目集成更多的TIPC测试链条及相关的代码文档，非常感谢您的贡献。
 ## 5.模型信息
 相关信息:
 
