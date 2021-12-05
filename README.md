@@ -46,9 +46,9 @@
 
 上述测试所用的模型和训练日志可从[百度云网盘]()中下载。
 
-## 3. 开始使用
+## 4. 开始使用
 
-### 3.1 准备环境
+### 4.1 准备环境
 
 - 硬件：Tesla V100 GPU
 - 框架：PaddlePaddle >= 2.2.0
@@ -64,12 +64,8 @@ cd Real_ESRGAN_paddle
 ```
 pip install -r requirements.txt
 ```
-然后介绍下怎样安装PaddlePaddle以及对应的requirements。
 
-建议将代码中用到的非python原生的库，都写在requirements.txt中，在安装完PaddlePaddle之后，直接使用`pip install -r requirements.txt`安装依赖即可。
-
-
-### 3.2 快速开始
+### 4.2 快速开始
 
 **训练**
 
@@ -78,17 +74,14 @@ pip install -r requirements.txt
 ```
 python train.py --opt options/train_realesrgan_x4plus.yml
 ```
-训练保存的模型和日志可见：
 
 **测试**
 
 ```
 python inference_realesrgan.py
 ```
-测试使用7张图片，结果如下：
 
-
-## 4. 代码结构
+## 5. 代码结构
 
 ```
 ├─data                          
@@ -109,9 +102,8 @@ python inference_realesrgan.py
 │  train.py                                     
 
 ```
-需要用一小节描述整个项目的代码结构，用一小节描述项目的参数说明，之后各个小节详细的描述每个功能的使用说明。
 
-## 5.模型信息
+## 6.模型信息
 相关信息:
 
 | 信息 | 描述 |
