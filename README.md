@@ -24,8 +24,6 @@
 
 在此非常感谢` Xintao `贡献的[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)的`Pytorch`代码，提高了本repo复现论文的效率。
 
-**aistudio体验教程:** [地址](https://aistudio.baidu.com/aistudio/projectdetail/3156903)
-
 
 ## 2. 数据集
 
@@ -90,7 +88,6 @@ python inference_realesrgan.py
 ├─models
 ├─options
 ├─results
-├─tb_logger
 ├─utils
 │  README.md
 │  inference_realesrgan.py                                                           
