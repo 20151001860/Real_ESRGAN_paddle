@@ -27,13 +27,7 @@
 
 ## 2. 数据集准备
 
-本项目训练所用的数据集为[DIV2K](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip)，[Flickr2K](https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar)和[OST](https://openmmlab.oss-cn-hangzhou.aliyuncs.com/datasets/OST_dataset.zip)。
-
-|数据集|大小|下载链接|数据格式|
-| :---: | :---: | :----: |:----: |
-|DIV2K|120k|[DIV2K](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip)|`png`|
-|Flickr2K|120k|[Flickr](https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar)|`png`|
-|OST|120k|[OST](https://openmmlab.oss-cn-hangzhou.aliyuncs.com/datasets/OST_dataset.zip)|`png`|
+本项目训练所用的数据集为DF2K和DF2K_multiscale，它们是通过[DIV2K](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip)和[Flickr2K](https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar)生成的，可以在[aistudio](https://aistudio.baidu.com/aistudio/datasetdetail/119372)公开数据集下载。
 
 ## 3. 复现效果
 基于上述数据集的训练结果，在3张图片上的测试结果如下：
@@ -44,7 +38,9 @@
 
 上面一行为测试输入图片，下面一行为测试输出图片。
 
-上述测试所用的模型和训练日志可从[百度云网盘]()中下载。
+上述测试所用的模型和训练日志可从[百度云网盘](https://pan.baidu.com/s/1mWO8aGCNdpRf8vXJIPjGYg)中下载，提取码：b8tl。
+
+注：由于训练过程中网络中断，因此训练过程分为几段，```net_g_latest7.pdparams```为最后的权重结果。
 
 ## 4. 开始使用
 
@@ -72,7 +68,7 @@ pip install -r requirements.txt
 
 为了训练`Real-ESRGAN`模型，我们采用与原论文一致的初始化模型参数`ESRGAN_SRx4_DF2KOST_official-ff704c30.pth`，并将其转化为Paddle格式的权重`ESRGAN_SRx4_DF2KOST_official-ff704c30.pdparams`进行训练。
 ```
-python train.py --opt options/train_realesrgan_x4plus.yml
+python train.py
 ```
 
 **测试**
