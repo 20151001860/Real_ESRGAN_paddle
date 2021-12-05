@@ -35,8 +35,8 @@ datasets:
   train:
     name: DF2K+OST
     type: RealESRGANDataset
-    dataroot_gt: /home/aistudio/data/data119372
-    meta_info: /home/aistudio/work/Real-ESRGAN-paddle1129/meta_info_DF2Kmultiscale.txt
+    dataroot_gt: /datasets
+    meta_info: /datasets/meta_info_DF2Kmultiscale.txt
     io_backend:
       type: disk
 
