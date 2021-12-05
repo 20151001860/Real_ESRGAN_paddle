@@ -38,8 +38,8 @@ datasets:
   train:
     name: DF2K+OST
     type: RealESRGANDataset
-    dataroot_gt: /home/aistudio/data/data119372
-    meta_info: /home/aistudio/work/Real-ESRGAN-paddle1129/meta_info_DF2Kmultiscale.txt
+    dataroot_gt: /dataset
+    meta_info: /dataset/meta_info_DF2Kmultiscale.txt
     io_backend:
       type: disk
 
@@ -131,7 +131,7 @@ network_d:
 # path
 path:
   # use the pre-trained Real-ESRNet model
-  pretrain_network_g: /home/aistudio/work/Real-ESRGAN-paddle1129/experiments/pretrained_models/net_g_latest7.pdparams
+  pretrain_network_g: /experiments/pretrained_models/ESRGAN_SRx4_DF2KOST_official-ff704c30.pdparams
   param_key_g: params_ema
   strict_load_g: true
   resume_state: ~
@@ -168,7 +168,7 @@ train:
   # perceptual loss (content and style losses)
   perceptual_opt:
     type: PerceptualLoss
-    vgg_path: /home/aistudio/work/Real-ESRGAN-paddle1129/experiments/pretrained_models/Vgg19_features.pdparams
+    vgg_path: /experiments/pretrained_models/Vgg19_features.pdparams
     out_layer_name: ['conv1_2','conv2_2','conv3_4','conv4_4','conv5_4']
     layer_weights:
       # before relu
