@@ -5,9 +5,11 @@
 
 ```
 1. 简介
-2. 数据集和复现精度
-3. 开始使用
-4. 代码结构与详细说明
+2. 数据集
+3. 复现效果
+4. 开始使用
+5. 代码结构
+6. 模型信息
 ```
 
 ## 1. 简介
@@ -25,7 +27,7 @@
 **aistudio体验教程:** [地址](https://aistudio.baidu.com/aistudio/projectdetail/3156903)
 
 
-## 2. 数据集准备
+## 2. 数据集
 
 本项目训练所用的数据集为DF2K和DF2K_multiscale，它们是通过[DIV2K](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip)和[Flickr2K](https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar)生成的，可以在[aistudio](https://aistudio.baidu.com/aistudio/datasetdetail/119372)公开数据集下载。
 
