@@ -38,13 +38,13 @@
 ## 3. 复现效果
 基于上述数据集的训练结果，在3张图片上的测试结果如下：
 
+![test_input1](inputs/00003.png)![test_input2](inputs/0014.jpg)![test_input3](inputs/0030.jpg)
 
-![test_image1](inputs/00003.png)![test_image2](inputs/0014.jpg)![test_image3](inputs/0030.jpg)
-基于上述数据集，本repo复现的精度、数据集名称、模型下载链接（模型权重和对应的日志文件推荐放在**百度云网盘**中，方便下载）、模型大小，以表格的形式给出。如果超参数有差别，可以在表格中新增一列备注一下。
+<img src='results/00003_out.png' width = '513px'><img src='results/0014_out.jpg' width = '180px'><img src='results/0030_out.jpg' width = '220px'>
 
-如果涉及到`轻量化骨干网络验证`，需要新增一列骨干网络的信息。
+上面一行为测试输入图片，下面一行为测试输出图片。
 
-
+上述测试所用的模型和训练日志可从[百度云网盘]()中下载。
 
 ## 3. 开始使用
 
