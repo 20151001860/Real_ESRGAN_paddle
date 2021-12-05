@@ -29,7 +29,7 @@
 
 ## 2. 数据集
 
-本项目训练所用的数据集为```DF2K```和```DF2K_multiscale```，它们是通过[DIV2K](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip)和[Flickr2K](https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar)生成的，其中，```DF2K```是高分辨率图片，```DF2K_multiscale```是不同尺度下的低分辨率图片，我们将其放在[aistudio](https://aistudio.baidu.com/aistudio/datasetdetail/119372)上。
+本项目训练所用的数据集为```DF2K```和```DF2K_multiscale```，它们是通过[DIV2K](http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip)和[Flickr2K](https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar)生成的，其中，```DF2K```包含3450张高分辨率图片，```DF2K_multiscale```包含13800张不同尺度下的低分辨率图片，我们将其放在[aistudio](https://aistudio.baidu.com/aistudio/datasetdetail/119372)上。
 
 ## 3. 复现效果
 基于上述数据集的训练结果，在3张低分辨率图片上的测试结果如下：
