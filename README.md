@@ -36,8 +36,10 @@
 |OST|120k|[OST](https://openmmlab.oss-cn-hangzhou.aliyuncs.com/datasets/OST_dataset.zip)|`png`|
 
 ## 3. 复现效果
-基于上述数据集的训练结果，在七张图片上的测试结果如下：
+基于上述数据集的训练结果，在3张图片上的测试结果如下：
 
+
+![test_image1](inputs/00003.png)![test_image2](inputs/0014.jpg)![test_image3](inputs/0030.jpg)
 基于上述数据集，本repo复现的精度、数据集名称、模型下载链接（模型权重和对应的日志文件推荐放在**百度云网盘**中，方便下载）、模型大小，以表格的形式给出。如果超参数有差别，可以在表格中新增一列备注一下。
 
 如果涉及到`轻量化骨干网络验证`，需要新增一列骨干网络的信息。
