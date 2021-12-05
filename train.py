@@ -191,5 +191,5 @@ def train_pipeline(root_path, ymlpath):
 
 if __name__ == '__main__':
     ymlpath = '/options/train_realesrgan_x4plus.yml'
-    root_path = '/Real-ESRGAN-paddle1129'
+    root_path = '/Real_ESRGAN_paddle'
     train_pipeline(root_path, ymlpath)
