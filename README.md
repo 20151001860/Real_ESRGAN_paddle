@@ -89,11 +89,9 @@ python inference_realesrgan.py
 ├─options
 ├─results
 ├─tb_logger
-├─utils
-│  generate_meta_info.py                     
+├─utils                    
 │  inference_realesrgan.py                        
-│  README.md                        
-│  README_CN.md                     
+│  README.md                                          
 │  requirements.txt                                       
 │  train.py                                     
 
