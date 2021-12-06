@@ -1,0 +1,978 @@
+2021-12-02 13:43:28,922 INFO: 
+  name: train_RealESRGANx4plus_400k_B12G4
+  model_type: RealESRGANModel
+  scale: 4
+  num_gpu: 0
+  manual_seed: 0
+  l1_gt_usm: True
+  percep_gt_usm: True
+  gan_gt_usm: False
+  resize_prob: [0.2, 0.7, 0.1]
+  resize_range: [0.15, 1.5]
+  gaussian_noise_prob: 0.5
+  noise_range: [1, 30]
+  poisson_scale_range: [0.05, 3]
+  gray_noise_prob: 0.4
+  jpeg_range: [30, 95]
+  second_blur_prob: 0.8
+  resize_prob2: [0.3, 0.4, 0.3]
+  resize_range2: [0.3, 1.2]
+  gaussian_noise_prob2: 0.5
+  noise_range2: [1, 25]
+  poisson_scale_range2: [0.05, 2.5]
+  gray_noise_prob2: 0.4
+  jpeg_range2: [30, 95]
+  gt_size: 256
+  queue_size: 180
+  datasets:[
+    train:[
+      name: DF2K+OST
+      type: RealESRGANDataset
+      dataroot_gt: /home/aistudio/data/data119372
+      meta_info: /home/aistudio/work/Real-ESRGAN-paddle1129/meta_info_DF2Kmultiscale.txt
+      io_backend:[
+        type: disk
+      ]
+      blur_kernel_size: 21
+      kernel_list: ['iso', 'aniso', 'generalized_iso', 'generalized_aniso', 'plateau_iso', 'plateau_aniso']
+      kernel_prob: [0.45, 0.25, 0.12, 0.03, 0.12, 0.03]
+      sinc_prob: 0.1
+      blur_sigma: [0.2, 3]
+      betag_range: [0.5, 4]
+      betap_range: [1, 2]
+      blur_kernel_size2: 21
+      kernel_list2: ['iso', 'aniso', 'generalized_iso', 'generalized_aniso', 'plateau_iso', 'plateau_aniso']
+      kernel_prob2: [0.45, 0.25, 0.12, 0.03, 0.12, 0.03]
+      sinc_prob2: 0.1
+      blur_sigma2: [0.2, 1.5]
+      betag_range2: [0.5, 4]
+      betap_range2: [1, 2]
+      final_sinc_prob: 0.8
+      gt_size: 256
+      use_hflip: True
+      use_rot: False
+      use_shuffle: True
+      num_worker_per_gpu: 5
+      batch_size_per_gpu: 8
+      dataset_enlarge_ratio: 1
+      prefetch_mode: None
+      scale: 4
+      num_gpu: 1
+      manual_seed: 0
+      gt_usm: True
+      l1_gt_usm: True
+      percep_gt_usm: True
+      gan_gt_usm: False
+      resize_prob: [0.2, 0.7, 0.1]
+      resize_range: [0.15, 1.5]
+      gaussian_noise_prob: 0.5
+      noise_range: [1, 30]
+      poisson_scale_range: [0.05, 3]
+      gray_noise_prob: 0.4
+      jpeg_range: [30, 95]
+      second_blur_prob: 0.8
+      resize_prob2: [0.3, 0.4, 0.3]
+      resize_range2: [0.3, 1.2]
+      gaussian_noise_prob2: 0.5
+      noise_range2: [1, 25]
+      poisson_scale_range2: [0.05, 2.5]
+      gray_noise_prob2: 0.4
+      jpeg_range2: [30, 95]
+      phase: train
+    ]
+  ]
+  network_g:[
+    type: RRDBNet
+    num_in_ch: 3
+    num_out_ch: 3
+    num_feat: 64
+    num_block: 23
+    num_grow_ch: 32
+    scale: 4
+  ]
+  network_d:[
+    type: UNetDiscriminatorSN
+    num_in_ch: 3
+    num_feat: 64
+    skip_connection: True
+  ]
+  path:[
+    pretrain_network_g: /home/aistudio/work/Real-ESRGAN-paddle1129/experiments/pretrained_models/net_g_latest3.pdparams
+    param_key_g: params_ema
+    strict_load_g: True
+    resume_state: None
+    experiments_root: /home/aistudio/work/Real-ESRGAN-paddle1129/experiments/train_RealESRGANx4plus_400k_B12G4
+    models: /home/aistudio/work/Real-ESRGAN-paddle1129/experiments/train_RealESRGANx4plus_400k_B12G4/models
+    training_states: /home/aistudio/work/Real-ESRGAN-paddle1129/experiments/train_RealESRGANx4plus_400k_B12G4/training_states
+    log: /home/aistudio/work/Real-ESRGAN-paddle1129/experiments/train_RealESRGANx4plus_400k_B12G4
+    visualization: /home/aistudio/work/Real-ESRGAN-paddle1129/experiments/train_RealESRGANx4plus_400k_B12G4/visualization
+  ]
+  train:[
+    ema_decay: 0.999
+    optim_g:[
+      type: Adam
+      lr: 0.0001
+      weight_decay: 0.0
+      beta1: 0.9
+      beta2: 0.99
+    ]
+    optim_d:[
+      type: Adam
+      lr: 0.0001
+      weight_decay: 0.0
+      beta1: 0.9
+      beta2: 0.99
+    ]
+    scheduler:[
+      type: MultiStepLR
+      milestones: [20000]
+      gamma: 0.5
+    ]
+    total_iter: 20000
+    warmup_iter: -1
+    pixel_opt:[
+      type: L1Loss
+      loss_weight: 1.0
+      reduction: mean
+    ]
+    perceptual_opt:[
+      type: PerceptualLoss
+      vgg_path: /home/aistudio/work/Real-ESRGAN-paddle1129/experiments/pretrained_models/Vgg19_features.pdparams
+      out_layer_name: ['conv1_2', 'conv2_2', 'conv3_4', 'conv4_4', 'conv5_4']
+      layer_weights:[
+        conv1_2: 0.1
+        conv2_2: 0.1
+        conv3_4: 1
+        conv4_4: 1
+        conv5_4: 1
+      ]
+      vgg_type: vgg19
+      use_input_norm: True
+      reduction: mean
+      perceptual_weight: 1.0
+      style_weight: 0
+      range_norm: False
+      criterion: l1
+    ]
+    gan_opt:[
+      type: GANLoss
+      gan_type: vanilla
+      real_label_val: 1.0
+      fake_label_val: 0.0
+      loss_weight: 0.1
+    ]
+    net_d_iters: 1
+    net_d_init_iters: 0
+  ]
+  logger:[
+    print_freq: 100
+    save_checkpoint_freq: 1000.0
+    use_tb_logger: True
+    wandb:[
+      project: None
+      resume_id: None
+    ]
+  ]
+  dist_params:[
+    backend: nccl
+    port: 29500
+  ]
+  rank: 0
+  world_size: 1
+  auto_resume: False
+  is_train: True
+  root_path: /home/aistudio/work/Real-ESRGAN-paddle1129
+
+2021-12-02 13:43:28,945 INFO: Training statistics:
+	Number of train images: 13800
+	Dataset enlarge ratio: 1
+	Batch size per gpu: 8
+	World size (gpu number): 1
+	Require iter number per epoch: 1725
+	Total epochs: 12; iters: 20000.
+2021-12-02 13:43:32,691 INFO: Network [RRDBNet] is created.
+2021-12-02 13:43:32,697 INFO: RRDBNet(
+  (conv_first): Conv2D(3, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+  (body): Sequential(
+    (0): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (1): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (2): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (3): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (4): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (5): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (6): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (7): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (8): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (9): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (10): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (11): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (12): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (13): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (14): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (15): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (16): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (17): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (18): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (19): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (20): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (21): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+    (22): RRDB(
+      (rdb1): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb2): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+      (rdb3): ResidualDenseBlock(
+        (conv1): Conv2D(64, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv2): Conv2D(96, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv3): Conv2D(128, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv4): Conv2D(160, 32, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (conv5): Conv2D(192, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+        (lrelu): LeakyReLU(negative_slope=0.2)
+      )
+    )
+  )
+  (conv_body): Conv2D(64, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+  (conv_up1): Conv2D(64, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+  (conv_up2): Conv2D(64, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+  (conv_hr): Conv2D(64, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+  (conv_last): Conv2D(64, 3, kernel_size=[3, 3], padding=1, data_format=NCHW)
+  (lrelu): LeakyReLU(negative_slope=0.2)
+)
+2021-12-02 13:43:33,326 INFO: Loading RRDBNet model from /home/aistudio/work/Real-ESRGAN-paddle1129/experiments/pretrained_models/net_g_latest3.pdparams, with param key: [params_ema].
+2021-12-02 13:43:33,471 INFO: Use Exponential Moving Average with decay: 0.999
+2021-12-02 13:43:33,702 INFO: Network [RRDBNet] is created.
+2021-12-02 13:43:33,898 INFO: Loading RRDBNet model from /home/aistudio/work/Real-ESRGAN-paddle1129/experiments/pretrained_models/net_g_latest3.pdparams, with param key: [params_ema].
+2021-12-02 13:43:34,055 INFO: Network [UNetDiscriminatorSN] is created.
+2021-12-02 13:43:34,056 INFO: UNetDiscriminatorSN(
+  (conv0): Conv2D(3, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+  (conv1): Conv2D(64, 128, kernel_size=[4, 4], stride=[2, 2], padding=1, data_format=NCHW)
+  (conv2): Conv2D(128, 256, kernel_size=[4, 4], stride=[2, 2], padding=1, data_format=NCHW)
+  (conv3): Conv2D(256, 512, kernel_size=[4, 4], stride=[2, 2], padding=1, data_format=NCHW)
+  (conv4): Conv2D(512, 256, kernel_size=[3, 3], padding=1, data_format=NCHW)
+  (conv5): Conv2D(256, 128, kernel_size=[3, 3], padding=1, data_format=NCHW)
+  (conv6): Conv2D(128, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+  (conv7): Conv2D(64, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+  (conv8): Conv2D(64, 64, kernel_size=[3, 3], padding=1, data_format=NCHW)
+  (conv9): Conv2D(64, 1, kernel_size=[3, 3], padding=1, data_format=NCHW)
+)
+2021-12-02 13:43:34,060 INFO: Loss [L1Loss] is created.
+2021-12-02 13:43:34,466 INFO: Loss [PerceptualLoss] is created.
+2021-12-02 13:43:34,467 INFO: Loss [GANLoss] is created.
+2021-12-02 13:43:34,472 INFO: Model [RealESRGANModel] is created.
+2021-12-02 13:43:34,473 INFO: Start training from epoch: 0, iter: 0
+2021-12-02 13:45:35,480 INFO: [train..][epoch:  0, iter:     100, lr:(1.000e-04,)] [eta: 6:12:49, time (data): 1.210 (0.043)] l_g_pix: 1.2795e-01 l_g_percep: 2.1040e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.2931e-05 l_d_fake: 6.9314e-01 out_d_fake: -1.0574e-05 
+2021-12-02 13:47:29,199 INFO: [train..][epoch:  0, iter:     200, lr:(1.000e-04,)] [eta: 6:13:05, time (data): 1.174 (0.022)] l_g_pix: 1.0488e-01 l_g_percep: 1.4884e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 6.1593e-06 l_d_fake: 6.9315e-01 out_d_fake: 6.2155e-06 
+2021-12-02 13:49:23,873 INFO: [train..][epoch:  0, iter:     300, lr:(1.000e-04,)] [eta: 6:12:57, time (data): 1.147 (0.001)] l_g_pix: 1.2205e-01 l_g_percep: 1.8075e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.5098e-05 l_d_fake: 6.9314e-01 out_d_fake: -1.4016e-05 
+2021-12-02 13:51:18,608 INFO: [train..][epoch:  0, iter:     400, lr:(1.000e-04,)] [eta: 6:11:59, time (data): 1.147 (0.001)] l_g_pix: 1.1881e-01 l_g_percep: 1.8211e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 3.4696e-07 l_d_fake: 6.9315e-01 out_d_fake: 1.2072e-06 
+2021-12-02 13:53:13,219 INFO: [train..][epoch:  0, iter:     500, lr:(1.000e-04,)] [eta: 6:10:34, time (data): 1.146 (0.001)] l_g_pix: 1.1295e-01 l_g_percep: 1.7628e+01 l_g_gan: 6.9316e-02 l_d_real: 6.9316e-01 out_d_real: -3.1686e-05 l_d_fake: 6.9313e-01 out_d_fake: -3.0641e-05 
+2021-12-02 13:55:07,725 INFO: [train..][epoch:  0, iter:     600, lr:(1.000e-04,)] [eta: 6:08:55, time (data): 1.146 (0.001)] l_g_pix: 9.0597e-02 l_g_percep: 1.5095e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -3.3328e-06 l_d_fake: 6.9315e-01 out_d_fake: -1.8722e-06 
+2021-12-02 13:57:02,175 INFO: [train..][epoch:  0, iter:     700, lr:(1.000e-04,)] [eta: 6:07:10, time (data): 1.145 (0.001)] l_g_pix: 1.0921e-01 l_g_percep: 1.8459e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 2.5233e-06 l_d_fake: 6.9315e-01 out_d_fake: 1.4734e-06 
+2021-12-02 13:58:57,017 INFO: [train..][epoch:  0, iter:     800, lr:(1.000e-04,)] [eta: 6:05:33, time (data): 1.147 (0.001)] l_g_pix: 9.8081e-02 l_g_percep: 1.3719e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -2.0527e-06 l_d_fake: 6.9314e-01 out_d_fake: -5.0872e-06 
+2021-12-02 14:00:51,668 INFO: [train..][epoch:  0, iter:     900, lr:(1.000e-04,)] [eta: 6:03:47, time (data): 1.146 (0.001)] l_g_pix: 8.2603e-02 l_g_percep: 1.1508e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 6.2229e-06 l_d_fake: 6.9315e-01 out_d_fake: 6.7487e-06 
+2021-12-02 14:02:46,552 INFO: [train..][epoch:  0, iter:   1,000, lr:(1.000e-04,)] [eta: 6:02:04, time (data): 1.148 (0.001)] l_g_pix: 9.7793e-02 l_g_percep: 1.7261e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -2.9565e-06 l_d_fake: 6.9315e-01 out_d_fake: -7.5365e-07 
+2021-12-02 14:02:46,556 INFO: Saving models and training states.
+2021-12-02 14:04:42,973 INFO: [train..][epoch:  0, iter:   1,100, lr:(1.000e-04,)] [eta: 6:00:46, time (data): 1.146 (0.002)] l_g_pix: 1.0434e-01 l_g_percep: 1.5177e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -5.5357e-06 l_d_fake: 6.9315e-01 out_d_fake: -4.0665e-06 
+2021-12-02 14:06:37,668 INFO: [train..][epoch:  0, iter:   1,200, lr:(1.000e-04,)] [eta: 5:58:53, time (data): 1.146 (0.001)] l_g_pix: 8.8125e-02 l_g_percep: 1.4817e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.0298e-05 l_d_fake: 6.9314e-01 out_d_fake: -1.0364e-05 
+2021-12-02 14:08:31,749 INFO: [train..][epoch:  0, iter:   1,300, lr:(1.000e-04,)] [eta: 5:56:52, time (data): 1.141 (0.001)] l_g_pix: 1.1454e-01 l_g_percep: 1.5708e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 6.7337e-06 l_d_fake: 6.9315e-01 out_d_fake: 5.1147e-06 
+2021-12-02 14:10:26,389 INFO: [train..][epoch:  0, iter:   1,400, lr:(1.000e-04,)] [eta: 5:54:59, time (data): 1.144 (0.001)] l_g_pix: 1.1508e-01 l_g_percep: 1.8444e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 2.5807e-06 l_d_fake: 6.9315e-01 out_d_fake: 1.9947e-06 
+2021-12-02 14:12:20,833 INFO: [train..][epoch:  0, iter:   1,500, lr:(1.000e-04,)] [eta: 5:53:04, time (data): 1.143 (0.001)] l_g_pix: 1.1358e-01 l_g_percep: 1.7515e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.8272e-06 l_d_fake: 6.9315e-01 out_d_fake: -1.6170e-06 
+2021-12-02 14:14:15,587 INFO: [train..][epoch:  0, iter:   1,600, lr:(1.000e-04,)] [eta: 5:51:12, time (data): 1.145 (0.001)] l_g_pix: 9.6256e-02 l_g_percep: 1.3616e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.1955e-05 l_d_fake: 6.9314e-01 out_d_fake: -1.1046e-05 
+2021-12-02 14:16:09,858 INFO: [train..][epoch:  0, iter:   1,700, lr:(1.000e-04,)] [eta: 5:49:15, time (data): 1.143 (0.001)] l_g_pix: 1.1003e-01 l_g_percep: 1.7816e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 8.6214e-07 l_d_fake: 6.9315e-01 out_d_fake: 1.2255e-06 
+2021-12-02 14:18:08,464 INFO: [train..][epoch:  1, iter:   1,800, lr:(1.000e-04,)] [eta: 5:48:02, time (data): 1.165 (0.019)] l_g_pix: 1.0700e-01 l_g_percep: 1.7347e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -4.9222e-06 l_d_fake: 6.9315e-01 out_d_fake: -4.2886e-06 
+2021-12-02 14:20:03,547 INFO: [train..][epoch:  1, iter:   1,900, lr:(1.000e-04,)] [eta: 5:46:10, time (data): 1.151 (0.001)] l_g_pix: 1.2255e-01 l_g_percep: 2.0548e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 1.8634e-06 l_d_fake: 6.9315e-01 out_d_fake: 3.1157e-06 
+2021-12-02 14:21:58,314 INFO: [train..][epoch:  1, iter:   2,000, lr:(1.000e-04,)] [eta: 5:44:15, time (data): 1.149 (0.001)] l_g_pix: 8.5704e-02 l_g_percep: 1.5116e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -8.2049e-06 l_d_fake: 6.9314e-01 out_d_fake: -8.5272e-06 
+2021-12-02 14:21:58,319 INFO: Saving models and training states.
+2021-12-02 14:23:54,757 INFO: [train..][epoch:  1, iter:   2,100, lr:(1.000e-04,)] [eta: 5:42:35, time (data): 1.146 (0.001)] l_g_pix: 1.2040e-01 l_g_percep: 1.9665e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -8.6728e-06 l_d_fake: 6.9314e-01 out_d_fake: -1.0472e-05 
+2021-12-02 14:25:49,924 INFO: [train..][epoch:  1, iter:   2,200, lr:(1.000e-04,)] [eta: 5:40:43, time (data): 1.149 (0.001)] l_g_pix: 1.2598e-01 l_g_percep: 1.8040e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 2.0126e-05 l_d_fake: 6.9316e-01 out_d_fake: 2.0997e-05 
+2021-12-02 14:27:44,812 INFO: [train..][epoch:  1, iter:   2,300, lr:(1.000e-04,)] [eta: 5:38:48, time (data): 1.150 (0.001)] l_g_pix: 7.6007e-02 l_g_percep: 1.3748e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.1524e-06 l_d_fake: 6.9315e-01 out_d_fake: 7.1143e-07 
+2021-12-02 14:29:39,110 INFO: [train..][epoch:  1, iter:   2,400, lr:(1.000e-04,)] [eta: 5:36:49, time (data): 1.146 (0.001)] l_g_pix: 1.1012e-01 l_g_percep: 1.6601e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 7.2054e-07 l_d_fake: 6.9315e-01 out_d_fake: 8.8917e-07 
+2021-12-02 14:31:33,092 INFO: [train..][epoch:  1, iter:   2,500, lr:(1.000e-04,)] [eta: 5:34:48, time (data): 1.139 (0.001)] l_g_pix: 1.0697e-01 l_g_percep: 1.5818e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -9.2168e-06 l_d_fake: 6.9314e-01 out_d_fake: -8.1418e-06 
+2021-12-02 14:33:27,017 INFO: [train..][epoch:  1, iter:   2,600, lr:(1.000e-04,)] [eta: 5:32:48, time (data): 1.139 (0.001)] l_g_pix: 7.7678e-02 l_g_percep: 1.4391e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 5.4842e-06 l_d_fake: 6.9315e-01 out_d_fake: 8.8168e-06 
+2021-12-02 14:35:21,870 INFO: [train..][epoch:  1, iter:   2,700, lr:(1.000e-04,)] [eta: 5:30:54, time (data): 1.150 (0.001)] l_g_pix: 6.8322e-02 l_g_percep: 1.1449e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -3.1765e-06 l_d_fake: 6.9315e-01 out_d_fake: -3.4846e-06 
+2021-12-02 14:37:16,595 INFO: [train..][epoch:  1, iter:   2,800, lr:(1.000e-04,)] [eta: 5:28:58, time (data): 1.148 (0.001)] l_g_pix: 1.0809e-01 l_g_percep: 1.5729e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 1.1096e-05 l_d_fake: 6.9315e-01 out_d_fake: 1.2261e-05 
+2021-12-02 14:39:11,134 INFO: [train..][epoch:  1, iter:   2,900, lr:(1.000e-04,)] [eta: 5:27:02, time (data): 1.146 (0.001)] l_g_pix: 1.1034e-01 l_g_percep: 1.5767e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -7.5254e-06 l_d_fake: 6.9314e-01 out_d_fake: -4.7346e-06 
+2021-12-02 14:41:06,118 INFO: [train..][epoch:  1, iter:   3,000, lr:(1.000e-04,)] [eta: 5:25:09, time (data): 1.148 (0.001)] l_g_pix: 1.1674e-01 l_g_percep: 1.8164e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 9.1633e-06 l_d_fake: 6.9315e-01 out_d_fake: 7.1399e-06 
+2021-12-02 14:41:06,123 INFO: Saving models and training states.
+2021-12-02 14:43:02,225 INFO: [train..][epoch:  1, iter:   3,100, lr:(1.000e-04,)] [eta: 5:23:21, time (data): 1.147 (0.001)] l_g_pix: 9.2157e-02 l_g_percep: 1.5499e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.2872e-06 l_d_fake: 6.9315e-01 out_d_fake: -3.8425e-07 
+2021-12-02 14:44:57,066 INFO: [train..][epoch:  1, iter:   3,200, lr:(1.000e-04,)] [eta: 5:21:27, time (data): 1.148 (0.001)] l_g_pix: 9.4589e-02 l_g_percep: 1.5426e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 4.7486e-06 l_d_fake: 6.9315e-01 out_d_fake: 5.6442e-06 
+2021-12-02 14:46:51,944 INFO: [train..][epoch:  1, iter:   3,300, lr:(1.000e-04,)] [eta: 5:19:32, time (data): 1.149 (0.001)] l_g_pix: 7.3226e-02 l_g_percep: 1.3657e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9315e-01 out_d_real: 3.2018e-06 l_d_fake: 6.9315e-01 out_d_fake: 6.3739e-06 
+2021-12-02 14:48:46,335 INFO: [train..][epoch:  1, iter:   3,400, lr:(1.000e-04,)] [eta: 5:17:35, time (data): 1.146 (0.001)] l_g_pix: 1.0724e-01 l_g_percep: 1.4778e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9315e-01 out_d_real: 6.2633e-07 l_d_fake: 6.9315e-01 out_d_fake: 6.5173e-06 
+2021-12-02 14:50:46,195 INFO: [train..][epoch:  2, iter:   3,500, lr:(1.000e-04,)] [eta: 5:16:04, time (data): 1.208 (0.044)] l_g_pix: 7.2691e-02 l_g_percep: 1.4076e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -3.4729e-06 l_d_fake: 6.9315e-01 out_d_fake: -1.7812e-07 
+2021-12-02 14:52:41,589 INFO: [train..][epoch:  2, iter:   3,600, lr:(1.000e-04,)] [eta: 5:14:12, time (data): 1.178 (0.021)] l_g_pix: 9.2061e-02 l_g_percep: 1.5222e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 1.5361e-05 l_d_fake: 6.9315e-01 out_d_fake: 1.4936e-05 
+2021-12-02 14:54:36,841 INFO: [train..][epoch:  2, iter:   3,700, lr:(1.000e-04,)] [eta: 5:12:18, time (data): 1.155 (0.001)] l_g_pix: 1.0789e-01 l_g_percep: 2.0962e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 1.3631e-05 l_d_fake: 6.9315e-01 out_d_fake: 1.2637e-05 
+2021-12-02 14:56:31,934 INFO: [train..][epoch:  2, iter:   3,800, lr:(1.000e-04,)] [eta: 5:10:23, time (data): 1.153 (0.001)] l_g_pix: 1.1570e-01 l_g_percep: 1.4680e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.1632e-05 l_d_fake: 6.9314e-01 out_d_fake: -9.4967e-06 
+2021-12-02 14:58:26,462 INFO: [train..][epoch:  2, iter:   3,900, lr:(1.000e-04,)] [eta: 5:08:27, time (data): 1.141 (0.001)] l_g_pix: 9.9426e-02 l_g_percep: 1.5081e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 8.1530e-06 l_d_fake: 6.9315e-01 out_d_fake: 9.3925e-06 
+2021-12-02 15:00:21,362 INFO: [train..][epoch:  2, iter:   4,000, lr:(1.000e-04,)] [eta: 5:06:31, time (data): 1.146 (0.001)] l_g_pix: 9.2692e-02 l_g_percep: 1.5438e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 2.2745e-06 l_d_fake: 6.9315e-01 out_d_fake: 1.1510e-06 
+2021-12-02 15:00:21,366 INFO: Saving models and training states.
+2021-12-02 15:02:18,267 INFO: [train..][epoch:  2, iter:   4,100, lr:(1.000e-04,)] [eta: 5:04:44, time (data): 1.154 (0.001)] l_g_pix: 1.0987e-01 l_g_percep: 1.8309e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 7.5227e-07 l_d_fake: 6.9315e-01 out_d_fake: 1.9517e-06 
+2021-12-02 15:04:12,936 INFO: [train..][epoch:  2, iter:   4,200, lr:(1.000e-04,)] [eta: 5:02:48, time (data): 1.150 (0.001)] l_g_pix: 1.2265e-01 l_g_percep: 1.5018e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 7.6886e-06 l_d_fake: 6.9315e-01 out_d_fake: 5.7080e-06 
+2021-12-02 15:06:08,435 INFO: [train..][epoch:  2, iter:   4,300, lr:(1.000e-04,)] [eta: 5:00:55, time (data): 1.154 (0.001)] l_g_pix: 1.1458e-01 l_g_percep: 1.6158e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -2.7821e-06 l_d_fake: 6.9314e-01 out_d_fake: -4.7272e-06 
+2021-12-02 15:08:03,677 INFO: [train..][epoch:  2, iter:   4,400, lr:(1.000e-04,)] [eta: 4:59:00, time (data): 1.153 (0.001)] l_g_pix: 9.9927e-02 l_g_percep: 1.5813e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 9.1835e-06 l_d_fake: 6.9315e-01 out_d_fake: 8.8753e-06 
+2021-12-02 15:09:58,581 INFO: [train..][epoch:  2, iter:   4,500, lr:(1.000e-04,)] [eta: 4:57:05, time (data): 1.152 (0.001)] l_g_pix: 1.2354e-01 l_g_percep: 1.4061e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 1.1315e-05 l_d_fake: 6.9315e-01 out_d_fake: 1.2156e-05 
+2021-12-02 15:11:53,813 INFO: [train..][epoch:  2, iter:   4,600, lr:(1.000e-04,)] [eta: 4:55:11, time (data): 1.152 (0.001)] l_g_pix: 1.0514e-01 l_g_percep: 1.4348e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -4.5853e-06 l_d_fake: 6.9314e-01 out_d_fake: -7.2481e-06 
+2021-12-02 15:13:49,440 INFO: [train..][epoch:  2, iter:   4,700, lr:(1.000e-04,)] [eta: 4:53:18, time (data): 1.157 (0.001)] l_g_pix: 8.7762e-02 l_g_percep: 1.4130e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.3796e-05 l_d_fake: 6.9314e-01 out_d_fake: -9.6142e-06 
+2021-12-02 15:15:44,938 INFO: [train..][epoch:  2, iter:   4,800, lr:(1.000e-04,)] [eta: 4:51:24, time (data): 1.156 (0.001)] l_g_pix: 1.1133e-01 l_g_percep: 1.6951e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 3.5485e-06 l_d_fake: 6.9315e-01 out_d_fake: 3.2003e-06 
+2021-12-02 15:17:40,016 INFO: [train..][epoch:  2, iter:   4,900, lr:(1.000e-04,)] [eta: 4:49:29, time (data): 1.153 (0.002)] l_g_pix: 1.1191e-01 l_g_percep: 1.6022e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -8.4796e-06 l_d_fake: 6.9314e-01 out_d_fake: -8.5524e-06 
+2021-12-02 15:19:34,564 INFO: [train..][epoch:  2, iter:   5,000, lr:(1.000e-04,)] [eta: 4:47:33, time (data): 1.149 (0.001)] l_g_pix: 8.5468e-02 l_g_percep: 1.5175e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 7.0074e-06 l_d_fake: 6.9315e-01 out_d_fake: 1.0083e-05 
+2021-12-02 15:19:34,569 INFO: Saving models and training states.
+2021-12-02 15:21:31,143 INFO: [train..][epoch:  2, iter:   5,100, lr:(1.000e-04,)] [eta: 4:45:42, time (data): 1.153 (0.001)] l_g_pix: 1.0541e-01 l_g_percep: 1.6684e+01 l_g_gan: 6.9316e-02 l_d_real: 6.9316e-01 out_d_real: -2.4880e-05 l_d_fake: 6.9314e-01 out_d_fake: -1.9062e-05 
+2021-12-02 15:23:30,149 INFO: [train..][epoch:  3, iter:   5,200, lr:(1.000e-04,)] [eta: 4:43:58, time (data): 1.174 (0.019)] l_g_pix: 8.6230e-02 l_g_percep: 1.4169e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -5.9472e-06 l_d_fake: 6.9315e-01 out_d_fake: 5.8250e-07 
+2021-12-02 15:25:24,800 INFO: [train..][epoch:  3, iter:   5,300, lr:(1.000e-04,)] [eta: 4:42:02, time (data): 1.147 (0.001)] l_g_pix: 9.6360e-02 l_g_percep: 1.6414e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -4.3055e-06 l_d_fake: 6.9315e-01 out_d_fake: -3.7312e-06 
+2021-12-02 15:27:20,035 INFO: [train..][epoch:  3, iter:   5,400, lr:(1.000e-04,)] [eta: 4:40:07, time (data): 1.150 (0.001)] l_g_pix: 1.1354e-01 l_g_percep: 1.6194e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.3623e-05 l_d_fake: 6.9314e-01 out_d_fake: -1.3483e-05 
+2021-12-02 15:29:14,779 INFO: [train..][epoch:  3, iter:   5,500, lr:(1.000e-04,)] [eta: 4:38:11, time (data): 1.147 (0.001)] l_g_pix: 9.4027e-02 l_g_percep: 1.7924e+01 l_g_gan: 6.9316e-02 l_d_real: 6.9316e-01 out_d_real: -2.6497e-05 l_d_fake: 6.9314e-01 out_d_fake: -2.3264e-05 
+2021-12-02 15:31:09,186 INFO: [train..][epoch:  3, iter:   5,600, lr:(1.000e-04,)] [eta: 4:36:14, time (data): 1.145 (0.001)] l_g_pix: 1.0998e-01 l_g_percep: 1.6708e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 6.6123e-06 l_d_fake: 6.9315e-01 out_d_fake: 1.0618e-05 
+2021-12-02 15:33:03,968 INFO: [train..][epoch:  3, iter:   5,700, lr:(1.000e-04,)] [eta: 4:34:18, time (data): 1.146 (0.001)] l_g_pix: 1.1682e-01 l_g_percep: 1.6372e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 1.3317e-05 l_d_fake: 6.9315e-01 out_d_fake: 1.2665e-05 
+2021-12-02 15:34:59,117 INFO: [train..][epoch:  3, iter:   5,800, lr:(1.000e-04,)] [eta: 4:32:23, time (data): 1.149 (0.001)] l_g_pix: 1.1067e-01 l_g_percep: 1.7563e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.4562e-05 l_d_fake: 6.9314e-01 out_d_fake: -1.0941e-05 
+2021-12-02 15:36:54,292 INFO: [train..][epoch:  3, iter:   5,900, lr:(1.000e-04,)] [eta: 4:30:28, time (data): 1.154 (0.001)] l_g_pix: 9.9210e-02 l_g_percep: 1.7615e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -2.8568e-06 l_d_fake: 6.9315e-01 out_d_fake: -3.5269e-06 
+2021-12-02 15:38:49,268 INFO: [train..][epoch:  3, iter:   6,000, lr:(1.000e-04,)] [eta: 4:28:33, time (data): 1.151 (0.001)] l_g_pix: 8.7377e-02 l_g_percep: 1.4237e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9316e-01 out_d_real: -1.5981e-05 l_d_fake: 6.9314e-01 out_d_fake: -1.1307e-05 
+2021-12-02 15:38:49,273 INFO: Saving models and training states.
+2021-12-02 15:40:45,722 INFO: [train..][epoch:  3, iter:   6,100, lr:(1.000e-04,)] [eta: 4:26:41, time (data): 1.150 (0.002)] l_g_pix: 1.2159e-01 l_g_percep: 1.9257e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -3.7817e-06 l_d_fake: 6.9315e-01 out_d_fake: -2.7492e-06 
+2021-12-02 15:42:40,711 INFO: [train..][epoch:  3, iter:   6,200, lr:(1.000e-04,)] [eta: 4:24:45, time (data): 1.150 (0.002)] l_g_pix: 9.9112e-02 l_g_percep: 1.5607e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 4.2073e-07 l_d_fake: 6.9315e-01 out_d_fake: 2.7473e-06 
+2021-12-02 15:44:35,484 INFO: [train..][epoch:  3, iter:   6,300, lr:(1.000e-04,)] [eta: 4:22:49, time (data): 1.150 (0.001)] l_g_pix: 7.9801e-02 l_g_percep: 1.3971e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9316e-01 out_d_real: -1.6112e-05 l_d_fake: 6.9314e-01 out_d_fake: -1.4849e-05 
+2021-12-02 15:46:30,662 INFO: [train..][epoch:  3, iter:   6,400, lr:(1.000e-04,)] [eta: 4:20:54, time (data): 1.151 (0.001)] l_g_pix: 1.0712e-01 l_g_percep: 1.7966e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 1.2003e-05 l_d_fake: 6.9315e-01 out_d_fake: 1.0856e-05 
+2021-12-02 15:48:26,069 INFO: [train..][epoch:  3, iter:   6,500, lr:(1.000e-04,)] [eta: 4:19:00, time (data): 1.149 (0.001)] l_g_pix: 8.7445e-02 l_g_percep: 1.4280e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 5.1994e-06 l_d_fake: 6.9315e-01 out_d_fake: 5.1011e-06 
+2021-12-02 15:50:20,526 INFO: [train..][epoch:  3, iter:   6,600, lr:(1.000e-04,)] [eta: 4:17:03, time (data): 1.146 (0.001)] l_g_pix: 1.2150e-01 l_g_percep: 1.7403e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -4.0925e-06 l_d_fake: 6.9314e-01 out_d_fake: -5.6177e-06 
+2021-12-02 15:52:15,353 INFO: [train..][epoch:  3, iter:   6,700, lr:(1.000e-04,)] [eta: 4:15:08, time (data): 1.150 (0.001)] l_g_pix: 1.1780e-01 l_g_percep: 1.9778e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -6.8293e-06 l_d_fake: 6.9314e-01 out_d_fake: -7.1253e-06 
+2021-12-02 15:54:10,374 INFO: [train..][epoch:  3, iter:   6,800, lr:(1.000e-04,)] [eta: 4:13:12, time (data): 1.150 (0.001)] l_g_pix: 1.0534e-01 l_g_percep: 1.5871e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.5027e-06 l_d_fake: 6.9315e-01 out_d_fake: -8.9270e-07 
+2021-12-02 15:56:04,863 INFO: [train..][epoch:  3, iter:   6,900, lr:(1.000e-04,)] [eta: 4:11:16, time (data): 1.145 (0.002)] l_g_pix: 1.0886e-01 l_g_percep: 1.6450e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 1.3690e-06 l_d_fake: 6.9315e-01 out_d_fake: 4.1637e-06 
+2021-12-02 15:58:04,387 INFO: [train..][epoch:  4, iter:   7,000, lr:(1.000e-04,)] [eta: 4:09:29, time (data): 1.175 (0.025)] l_g_pix: 1.0038e-01 l_g_percep: 1.6743e+01 l_g_gan: 6.9313e-02 l_d_real: 6.9313e-01 out_d_real: 3.7422e-05 l_d_fake: 6.9317e-01 out_d_fake: 3.9301e-05 
+2021-12-02 15:58:04,389 INFO: Saving models and training states.
+2021-12-02 16:00:01,294 INFO: [train..][epoch:  4, iter:   7,100, lr:(1.000e-04,)] [eta: 4:07:37, time (data): 1.151 (0.001)] l_g_pix: 9.1927e-02 l_g_percep: 1.4430e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 1.1133e-06 l_d_fake: 6.9315e-01 out_d_fake: 1.8841e-06 
+2021-12-02 16:01:56,521 INFO: [train..][epoch:  4, iter:   7,200, lr:(1.000e-04,)] [eta: 4:05:42, time (data): 1.152 (0.001)] l_g_pix: 9.5027e-02 l_g_percep: 1.7659e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.2052e-05 l_d_fake: 6.9314e-01 out_d_fake: -9.9743e-06 
+2021-12-02 16:03:51,420 INFO: [train..][epoch:  4, iter:   7,300, lr:(1.000e-04,)] [eta: 4:03:47, time (data): 1.152 (0.001)] l_g_pix: 1.3987e-01 l_g_percep: 1.8025e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -9.5436e-06 l_d_fake: 6.9314e-01 out_d_fake: -8.3206e-06 
+2021-12-02 16:05:46,905 INFO: [train..][epoch:  4, iter:   7,400, lr:(1.000e-04,)] [eta: 4:01:52, time (data): 1.154 (0.001)] l_g_pix: 9.6184e-02 l_g_percep: 1.7763e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -3.2111e-06 l_d_fake: 6.9315e-01 out_d_fake: -1.6241e-06 
+2021-12-02 16:07:41,818 INFO: [train..][epoch:  4, iter:   7,500, lr:(1.000e-04,)] [eta: 3:59:56, time (data): 1.151 (0.001)] l_g_pix: 8.4414e-02 l_g_percep: 1.4772e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.0304e-05 l_d_fake: 6.9314e-01 out_d_fake: -1.1298e-05 
+2021-12-02 16:09:36,956 INFO: [train..][epoch:  4, iter:   7,600, lr:(1.000e-04,)] [eta: 3:58:01, time (data): 1.151 (0.001)] l_g_pix: 9.1318e-02 l_g_percep: 1.5939e+01 l_g_gan: 6.9316e-02 l_d_real: 6.9316e-01 out_d_real: -1.6102e-05 l_d_fake: 6.9314e-01 out_d_fake: -1.6186e-05 
+2021-12-02 16:11:31,974 INFO: [train..][epoch:  4, iter:   7,700, lr:(1.000e-04,)] [eta: 3:56:06, time (data): 1.152 (0.001)] l_g_pix: 8.5495e-02 l_g_percep: 1.5331e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 1.3269e-05 l_d_fake: 6.9315e-01 out_d_fake: 1.2725e-05 
+2021-12-02 16:13:26,959 INFO: [train..][epoch:  4, iter:   7,800, lr:(1.000e-04,)] [eta: 3:54:10, time (data): 1.151 (0.001)] l_g_pix: 9.0669e-02 l_g_percep: 1.5327e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -8.3987e-06 l_d_fake: 6.9314e-01 out_d_fake: -6.0755e-06 
+2021-12-02 16:15:21,892 INFO: [train..][epoch:  4, iter:   7,900, lr:(1.000e-04,)] [eta: 3:52:14, time (data): 1.149 (0.001)] l_g_pix: 1.3108e-01 l_g_percep: 1.6629e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9315e-01 out_d_real: 4.1420e-06 l_d_fake: 6.9315e-01 out_d_fake: 4.3859e-06 
+2021-12-02 16:17:16,705 INFO: [train..][epoch:  4, iter:   8,000, lr:(1.000e-04,)] [eta: 3:50:19, time (data): 1.149 (0.001)] l_g_pix: 1.2258e-01 l_g_percep: 1.5429e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -5.5016e-06 l_d_fake: 6.9314e-01 out_d_fake: -4.8185e-06 
+2021-12-02 16:17:16,710 INFO: Saving models and training states.
+2021-12-02 16:19:12,973 INFO: [train..][epoch:  4, iter:   8,100, lr:(1.000e-04,)] [eta: 3:48:25, time (data): 1.147 (0.001)] l_g_pix: 1.0244e-01 l_g_percep: 1.5216e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 5.0170e-06 l_d_fake: 6.9315e-01 out_d_fake: 5.8087e-06 
+2021-12-02 16:21:08,327 INFO: [train..][epoch:  4, iter:   8,200, lr:(1.000e-04,)] [eta: 3:46:30, time (data): 1.151 (0.001)] l_g_pix: 8.6917e-02 l_g_percep: 1.3979e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9315e-01 out_d_real: 3.4636e-06 l_d_fake: 6.9315e-01 out_d_fake: 5.1359e-06 
+2021-12-02 16:23:04,890 INFO: [train..][epoch:  4, iter:   8,300, lr:(1.000e-04,)] [eta: 3:44:37, time (data): 1.153 (0.001)] l_g_pix: 1.1171e-01 l_g_percep: 1.7090e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 1.2842e-05 l_d_fake: 6.9315e-01 out_d_fake: 1.3864e-05 
+2021-12-02 16:25:00,106 INFO: [train..][epoch:  4, iter:   8,400, lr:(1.000e-04,)] [eta: 3:42:42, time (data): 1.152 (0.001)] l_g_pix: 1.1382e-01 l_g_percep: 1.8202e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -7.7314e-06 l_d_fake: 6.9314e-01 out_d_fake: -7.1770e-06 
+2021-12-02 16:26:59,251 INFO: [train..][epoch:  4, iter:   8,500, lr:(1.000e-04,)] [eta: 3:40:52, time (data): 1.215 (0.002)] l_g_pix: 1.0869e-01 l_g_percep: 1.7408e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9315e-01 out_d_real: 3.2775e-06 l_d_fake: 6.9315e-01 out_d_fake: 6.8118e-06 
+2021-12-02 16:28:57,600 INFO: [train..][epoch:  4, iter:   8,600, lr:(1.000e-04,)] [eta: 3:39:01, time (data): 1.195 (0.002)] l_g_pix: 1.2444e-01 l_g_percep: 1.7476e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 1.0104e-05 l_d_fake: 6.9315e-01 out_d_fake: 1.4143e-05 
+2021-12-02 16:30:57,763 INFO: [train..][epoch:  5, iter:   8,700, lr:(1.000e-04,)] [eta: 3:37:12, time (data): 1.151 (0.001)] l_g_pix: 1.0313e-01 l_g_percep: 1.5848e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 2.1312e-05 l_d_fake: 6.9316e-01 out_d_fake: 2.4416e-05 
+2021-12-02 16:32:53,855 INFO: [train..][epoch:  5, iter:   8,800, lr:(1.000e-04,)] [eta: 3:35:17, time (data): 1.157 (0.001)] l_g_pix: 1.2779e-01 l_g_percep: 1.7895e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9314e-01 out_d_real: 5.1288e-06 l_d_fake: 6.9315e-01 out_d_fake: 4.2896e-06 
+2021-12-02 16:34:49,424 INFO: [train..][epoch:  5, iter:   8,900, lr:(1.000e-04,)] [eta: 3:33:22, time (data): 1.157 (0.001)] l_g_pix: 1.1380e-01 l_g_percep: 1.5088e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -2.7002e-06 l_d_fake: 6.9315e-01 out_d_fake: -1.4461e-06 
+2021-12-02 16:36:45,863 INFO: [train..][epoch:  5, iter:   9,000, lr:(1.000e-04,)] [eta: 3:31:28, time (data): 1.162 (0.002)] l_g_pix: 1.0848e-01 l_g_percep: 1.5561e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 7.0786e-06 l_d_fake: 6.9315e-01 out_d_fake: 8.5050e-06 
+2021-12-02 16:36:45,871 INFO: Saving models and training states.
+2021-12-02 16:38:43,772 INFO: [train..][epoch:  5, iter:   9,100, lr:(1.000e-04,)] [eta: 3:29:36, time (data): 1.157 (0.002)] l_g_pix: 9.3085e-02 l_g_percep: 1.7050e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 1.2147e-05 l_d_fake: 6.9315e-01 out_d_fake: 1.2530e-05 
+2021-12-02 16:40:40,116 INFO: [train..][epoch:  5, iter:   9,200, lr:(1.000e-04,)] [eta: 3:27:42, time (data): 1.161 (0.002)] l_g_pix: 1.0953e-01 l_g_percep: 1.7630e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9315e-01 out_d_real: 2.2110e-06 l_d_fake: 6.9315e-01 out_d_fake: 4.8040e-06 
+2021-12-02 16:42:35,539 INFO: [train..][epoch:  5, iter:   9,300, lr:(1.000e-04,)] [eta: 3:25:46, time (data): 1.156 (0.002)] l_g_pix: 9.7734e-02 l_g_percep: 1.6413e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.3297e-05 l_d_fake: 6.9314e-01 out_d_fake: -6.9809e-06 
+2021-12-02 16:44:41,843 INFO: [train..][epoch:  5, iter:   9,400, lr:(1.000e-04,)] [eta: 3:24:03, time (data): 1.226 (0.002)] l_g_pix: 1.1759e-01 l_g_percep: 1.8179e+01 l_g_gan: 6.9316e-02 l_d_real: 6.9316e-01 out_d_real: -2.9293e-05 l_d_fake: 6.9313e-01 out_d_fake: -2.8055e-05 
+2021-12-02 16:46:41,771 INFO: [train..][epoch:  5, iter:   9,500, lr:(1.000e-04,)] [eta: 3:22:13, time (data): 1.202 (0.001)] l_g_pix: 1.1426e-01 l_g_percep: 1.5880e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.0304e-07 l_d_fake: 6.9315e-01 out_d_fake: 2.4107e-07 
+2021-12-02 16:48:37,706 INFO: [train..][epoch:  5, iter:   9,600, lr:(1.000e-04,)] [eta: 3:20:18, time (data): 1.174 (0.002)] l_g_pix: 9.9481e-02 l_g_percep: 1.7273e+01 l_g_gan: 6.9316e-02 l_d_real: 6.9316e-01 out_d_real: -2.2751e-05 l_d_fake: 6.9314e-01 out_d_fake: -2.0892e-05 
+2021-12-02 16:50:34,414 INFO: [train..][epoch:  5, iter:   9,700, lr:(1.000e-04,)] [eta: 3:18:23, time (data): 1.168 (0.002)] l_g_pix: 1.2088e-01 l_g_percep: 1.9139e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -9.7929e-06 l_d_fake: 6.9314e-01 out_d_fake: -8.6817e-06 
+2021-12-02 16:52:30,810 INFO: [train..][epoch:  5, iter:   9,800, lr:(1.000e-04,)] [eta: 3:16:28, time (data): 1.165 (0.002)] l_g_pix: 1.1197e-01 l_g_percep: 1.8745e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -4.0475e-06 l_d_fake: 6.9315e-01 out_d_fake: 5.2304e-07 
+2021-12-02 16:54:29,352 INFO: [train..][epoch:  5, iter:   9,900, lr:(1.000e-04,)] [eta: 3:14:36, time (data): 1.167 (0.002)] l_g_pix: 1.1079e-01 l_g_percep: 2.0216e+01 l_g_gan: 6.9316e-02 l_d_real: 6.9316e-01 out_d_real: -2.1567e-05 l_d_fake: 6.9314e-01 out_d_fake: -2.0381e-05 
+2021-12-02 16:56:29,476 INFO: [train..][epoch:  5, iter:  10,000, lr:(1.000e-04,)] [eta: 3:12:45, time (data): 1.190 (0.002)] l_g_pix: 1.0130e-01 l_g_percep: 1.7373e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -4.7908e-06 l_d_fake: 6.9314e-01 out_d_fake: -6.0591e-06 
+2021-12-02 16:56:29,481 INFO: Saving models and training states.
+2021-12-02 16:58:27,560 INFO: [train..][epoch:  5, iter:  10,100, lr:(1.000e-04,)] [eta: 3:10:51, time (data): 1.166 (0.001)] l_g_pix: 1.0084e-01 l_g_percep: 1.5564e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 1.4705e-05 l_d_fake: 6.9316e-01 out_d_fake: 1.6323e-05 
+2021-12-02 17:00:25,075 INFO: [train..][epoch:  5, iter:  10,200, lr:(1.000e-04,)] [eta: 3:08:57, time (data): 1.172 (0.002)] l_g_pix: 1.2293e-01 l_g_percep: 1.9989e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -2.0762e-06 l_d_fake: 6.9315e-01 out_d_fake: 2.7645e-06 
+2021-12-02 17:02:20,367 INFO: [train..][epoch:  5, iter:  10,300, lr:(1.000e-04,)] [eta: 3:07:01, time (data): 1.152 (0.001)] l_g_pix: 1.2628e-01 l_g_percep: 1.6944e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -4.4155e-06 l_d_fake: 6.9314e-01 out_d_fake: -4.9390e-06 
+2021-12-02 17:04:20,977 INFO: [train..][epoch:  6, iter:  10,400, lr:(1.000e-04,)] [eta: 3:05:10, time (data): 1.188 (0.029)] l_g_pix: 1.0393e-01 l_g_percep: 1.3919e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -5.1654e-06 l_d_fake: 6.9314e-01 out_d_fake: -4.9675e-06 
+2021-12-02 17:06:16,744 INFO: [train..][epoch:  6, iter:  10,500, lr:(1.000e-04,)] [eta: 3:03:14, time (data): 1.160 (0.002)] l_g_pix: 1.0808e-01 l_g_percep: 1.5323e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 2.0779e-06 l_d_fake: 6.9315e-01 out_d_fake: 4.0002e-06 
+2021-12-02 17:08:11,923 INFO: [train..][epoch:  6, iter:  10,600, lr:(1.000e-04,)] [eta: 3:01:18, time (data): 1.154 (0.001)] l_g_pix: 1.4029e-01 l_g_percep: 2.0467e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -3.7468e-06 l_d_fake: 6.9315e-01 out_d_fake: -2.0786e-06 
+2021-12-02 17:10:06,658 INFO: [train..][epoch:  6, iter:  10,700, lr:(1.000e-04,)] [eta: 2:59:22, time (data): 1.149 (0.001)] l_g_pix: 9.4558e-02 l_g_percep: 1.9189e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -4.7235e-06 l_d_fake: 6.9314e-01 out_d_fake: -5.2074e-06 
+2021-12-02 17:12:01,624 INFO: [train..][epoch:  6, iter:  10,800, lr:(1.000e-04,)] [eta: 2:57:25, time (data): 1.149 (0.002)] l_g_pix: 1.0384e-01 l_g_percep: 1.6467e+01 l_g_gan: 6.9316e-02 l_d_real: 6.9316e-01 out_d_real: -1.9465e-05 l_d_fake: 6.9314e-01 out_d_fake: -1.8743e-05 
+2021-12-02 17:13:56,281 INFO: [train..][epoch:  6, iter:  10,900, lr:(1.000e-04,)] [eta: 2:55:29, time (data): 1.144 (0.001)] l_g_pix: 9.3724e-02 l_g_percep: 1.4033e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 4.9847e-06 l_d_fake: 6.9315e-01 out_d_fake: 6.8497e-06 
+2021-12-02 17:15:50,966 INFO: [train..][epoch:  6, iter:  11,000, lr:(1.000e-04,)] [eta: 2:53:32, time (data): 1.146 (0.001)] l_g_pix: 1.2981e-01 l_g_percep: 2.2715e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -5.9814e-06 l_d_fake: 6.9314e-01 out_d_fake: -5.7226e-06 
+2021-12-02 17:15:50,970 INFO: Saving models and training states.
+2021-12-02 17:17:47,528 INFO: [train..][epoch:  6, iter:  11,100, lr:(1.000e-04,)] [eta: 2:51:37, time (data): 1.147 (0.001)] l_g_pix: 1.0568e-01 l_g_percep: 1.4875e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -3.9295e-06 l_d_fake: 6.9315e-01 out_d_fake: -6.5321e-07 
+2021-12-02 17:19:41,780 INFO: [train..][epoch:  6, iter:  11,200, lr:(1.000e-04,)] [eta: 2:49:40, time (data): 1.144 (0.001)] l_g_pix: 6.5262e-02 l_g_percep: 1.1732e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 2.2827e-05 l_d_fake: 6.9316e-01 out_d_fake: 2.2078e-05 
+2021-12-02 17:21:37,532 INFO: [train..][epoch:  6, iter:  11,300, lr:(1.000e-04,)] [eta: 2:47:45, time (data): 1.179 (0.002)] l_g_pix: 1.2115e-01 l_g_percep: 1.9631e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 1.4972e-05 l_d_fake: 6.9316e-01 out_d_fake: 1.6045e-05 
+2021-12-02 17:23:31,973 INFO: [train..][epoch:  6, iter:  11,400, lr:(1.000e-04,)] [eta: 2:45:48, time (data): 1.155 (0.001)] l_g_pix: 1.1661e-01 l_g_percep: 1.8495e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.0201e-05 l_d_fake: 6.9314e-01 out_d_fake: -9.4132e-06 
+2021-12-02 17:25:26,948 INFO: [train..][epoch:  6, iter:  11,500, lr:(1.000e-04,)] [eta: 2:43:52, time (data): 1.151 (0.002)] l_g_pix: 8.9393e-02 l_g_percep: 1.4404e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -3.2525e-06 l_d_fake: 6.9315e-01 out_d_fake: 1.9362e-06 
+2021-12-02 17:27:22,055 INFO: [train..][epoch:  6, iter:  11,600, lr:(1.000e-04,)] [eta: 2:41:56, time (data): 1.151 (0.001)] l_g_pix: 1.0647e-01 l_g_percep: 1.6601e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 9.7013e-06 l_d_fake: 6.9315e-01 out_d_fake: 8.7603e-06 
+2021-12-02 17:29:16,692 INFO: [train..][epoch:  6, iter:  11,700, lr:(1.000e-04,)] [eta: 2:39:59, time (data): 1.150 (0.001)] l_g_pix: 1.1881e-01 l_g_percep: 1.4287e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -5.4917e-07 l_d_fake: 6.9315e-01 out_d_fake: 7.4023e-07 
+2021-12-02 17:31:11,937 INFO: [train..][epoch:  6, iter:  11,800, lr:(1.000e-04,)] [eta: 2:38:03, time (data): 1.152 (0.001)] l_g_pix: 8.1484e-02 l_g_percep: 1.3068e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -3.3457e-06 l_d_fake: 6.9315e-01 out_d_fake: -6.3720e-07 
+2021-12-02 17:33:06,780 INFO: [train..][epoch:  6, iter:  11,900, lr:(1.000e-04,)] [eta: 2:36:07, time (data): 1.149 (0.002)] l_g_pix: 1.0237e-01 l_g_percep: 1.7645e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -2.0864e-06 l_d_fake: 6.9315e-01 out_d_fake: 1.3904e-06 
+2021-12-02 17:35:01,452 INFO: [train..][epoch:  6, iter:  12,000, lr:(1.000e-04,)] [eta: 2:34:11, time (data): 1.147 (0.001)] l_g_pix: 1.0304e-01 l_g_percep: 1.7267e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -9.4326e-06 l_d_fake: 6.9314e-01 out_d_fake: -5.4376e-06 
+2021-12-02 17:35:01,456 INFO: Saving models and training states.
+2021-12-02 17:37:02,314 INFO: [train..][epoch:  7, iter:  12,100, lr:(1.000e-04,)] [eta: 2:32:18, time (data): 1.259 (0.084)] l_g_pix: 1.0130e-01 l_g_percep: 1.7405e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -8.4677e-06 l_d_fake: 6.9314e-01 out_d_fake: -7.5121e-06 
+2021-12-02 17:38:56,676 INFO: [train..][epoch:  7, iter:  12,200, lr:(1.000e-04,)] [eta: 2:30:22, time (data): 1.176 (0.025)] l_g_pix: 1.0569e-01 l_g_percep: 1.7981e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 4.1329e-06 l_d_fake: 6.9315e-01 out_d_fake: 2.0818e-06 
+2021-12-02 17:40:51,776 INFO: [train..][epoch:  7, iter:  12,300, lr:(1.000e-04,)] [eta: 2:28:26, time (data): 1.153 (0.001)] l_g_pix: 9.9244e-02 l_g_percep: 1.4951e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -4.7224e-06 l_d_fake: 6.9315e-01 out_d_fake: -3.9547e-06 
+2021-12-02 17:42:46,948 INFO: [train..][epoch:  7, iter:  12,400, lr:(1.000e-04,)] [eta: 2:26:30, time (data): 1.152 (0.001)] l_g_pix: 1.1079e-01 l_g_percep: 1.6079e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.0978e-05 l_d_fake: 6.9314e-01 out_d_fake: -8.3193e-06 
+2021-12-02 17:44:42,577 INFO: [train..][epoch:  7, iter:  12,500, lr:(1.000e-04,)] [eta: 2:24:34, time (data): 1.165 (0.002)] l_g_pix: 9.6056e-02 l_g_percep: 1.6678e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.7630e-07 l_d_fake: 6.9315e-01 out_d_fake: 1.0521e-06 
+2021-12-02 17:46:37,783 INFO: [train..][epoch:  7, iter:  12,600, lr:(1.000e-04,)] [eta: 2:22:38, time (data): 1.155 (0.002)] l_g_pix: 1.0421e-01 l_g_percep: 1.5455e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -2.4754e-06 l_d_fake: 6.9315e-01 out_d_fake: -2.1136e-06 
+2021-12-02 17:48:33,511 INFO: [train..][epoch:  7, iter:  12,700, lr:(1.000e-04,)] [eta: 2:20:42, time (data): 1.159 (0.002)] l_g_pix: 8.8279e-02 l_g_percep: 1.5308e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 5.6816e-06 l_d_fake: 6.9315e-01 out_d_fake: 7.9329e-06 
+2021-12-02 17:50:29,372 INFO: [train..][epoch:  7, iter:  12,800, lr:(1.000e-04,)] [eta: 2:18:47, time (data): 1.159 (0.001)] l_g_pix: 1.2297e-01 l_g_percep: 1.8576e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 8.2162e-06 l_d_fake: 6.9315e-01 out_d_fake: 9.2785e-06 
+2021-12-02 17:52:24,384 INFO: [train..][epoch:  7, iter:  12,900, lr:(1.000e-04,)] [eta: 2:16:51, time (data): 1.146 (0.001)] l_g_pix: 1.1367e-01 l_g_percep: 1.5180e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 1.5590e-05 l_d_fake: 6.9316e-01 out_d_fake: 1.5883e-05 
+2021-12-02 17:54:20,254 INFO: [train..][epoch:  7, iter:  13,000, lr:(1.000e-04,)] [eta: 2:14:55, time (data): 1.155 (0.002)] l_g_pix: 1.0820e-01 l_g_percep: 1.5444e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.4164e-05 l_d_fake: 6.9314e-01 out_d_fake: -1.3607e-05 
+2021-12-02 17:54:20,259 INFO: Saving models and training states.
+2021-12-02 17:56:17,487 INFO: [train..][epoch:  7, iter:  13,100, lr:(1.000e-04,)] [eta: 2:13:00, time (data): 1.156 (0.001)] l_g_pix: 1.0345e-01 l_g_percep: 1.5786e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 1.2296e-06 l_d_fake: 6.9315e-01 out_d_fake: 2.5579e-06 
+2021-12-02 17:58:12,781 INFO: [train..][epoch:  7, iter:  13,200, lr:(1.000e-04,)] [eta: 2:11:05, time (data): 1.154 (0.002)] l_g_pix: 7.6215e-02 l_g_percep: 1.4772e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -5.1252e-06 l_d_fake: 6.9314e-01 out_d_fake: -4.4543e-06 
+2021-12-02 18:00:07,714 INFO: [train..][epoch:  7, iter:  13,300, lr:(1.000e-04,)] [eta: 2:09:08, time (data): 1.143 (0.001)] l_g_pix: 1.0610e-01 l_g_percep: 1.7286e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -3.9488e-06 l_d_fake: 6.9315e-01 out_d_fake: 5.5060e-07 
+2021-12-02 18:02:03,743 INFO: [train..][epoch:  7, iter:  13,400, lr:(1.000e-04,)] [eta: 2:07:13, time (data): 1.156 (0.001)] l_g_pix: 1.0468e-01 l_g_percep: 1.9142e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 8.3363e-07 l_d_fake: 6.9315e-01 out_d_fake: -3.1217e-06 
+2021-12-02 18:04:00,602 INFO: [train..][epoch:  7, iter:  13,500, lr:(1.000e-04,)] [eta: 2:05:18, time (data): 1.183 (0.002)] l_g_pix: 1.4337e-01 l_g_percep: 2.0740e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -6.2693e-07 l_d_fake: 6.9315e-01 out_d_fake: -2.9930e-06 
+2021-12-02 18:05:57,980 INFO: [train..][epoch:  7, iter:  13,600, lr:(1.000e-04,)] [eta: 2:03:23, time (data): 1.176 (0.002)] l_g_pix: 8.8955e-02 l_g_percep: 1.5245e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 1.8252e-05 l_d_fake: 6.9316e-01 out_d_fake: 1.6150e-05 
+2021-12-02 18:07:56,359 INFO: [train..][epoch:  7, iter:  13,700, lr:(1.000e-04,)] [eta: 2:01:29, time (data): 1.184 (0.002)] l_g_pix: 1.0841e-01 l_g_percep: 1.6356e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: -1.2021e-05 l_d_fake: 6.9314e-01 out_d_fake: -1.0449e-05 
+2021-12-02 18:09:53,804 INFO: [train..][epoch:  7, iter:  13,800, lr:(1.000e-04,)] [eta: 1:59:34, time (data): 1.177 (0.002)] l_g_pix: 1.1491e-01 l_g_percep: 1.7575e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 8.1655e-06 l_d_fake: 6.9315e-01 out_d_fake: 8.9124e-06 
+2021-12-02 18:11:56,231 INFO: [train..][epoch:  8, iter:  13,900, lr:(1.000e-04,)] [eta: 1:57:41, time (data): 1.171 (0.002)] l_g_pix: 1.0444e-01 l_g_percep: 1.3785e+01 l_g_gan: 6.9314e-02 l_d_real: 6.9314e-01 out_d_real: 1.1044e-05 l_d_fake: 6.9315e-01 out_d_fake: 1.0125e-05 
+2021-12-02 18:13:53,645 INFO: [train..][epoch:  8, iter:  14,000, lr:(1.000e-04,)] [eta: 1:55:46, time (data): 1.173 (0.002)] l_g_pix: 1.1463e-01 l_g_percep: 1.6330e+01 l_g_gan: 6.9315e-02 l_d_real: 6.9315e-01 out_d_real: 2.5928e-06 l_d_fake: 6.9315e-01 out_d_fake: 5.0426e-07 
+2021-12-02 18:13:53,652 INFO: Saving models and training states.
