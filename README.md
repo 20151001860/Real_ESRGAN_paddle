@@ -40,7 +40,7 @@
 
 上述测试所用的模型和训练日志可从[百度云网盘](https://pan.baidu.com/s/1mWO8aGCNdpRf8vXJIPjGYg)中下载，提取码：b8tl。
 
-注：由于训练过程中网络中断，因此训练过程分为几段，```net_g_latest7.pdparams```为最后的权重结果。
+注：由于训练过程中网络中断，因此训练过程分为几段，```net_g_latest2.pdparams```为最后的权重结果。
 
 ## 4. 开始使用
 
@@ -102,7 +102,7 @@ python inference_realesrgan.py
 | 信息 | 描述 |
 | --- | --- |
 | 作者 | 勇敢土豆不怕困难！|
-| 日期 | 2021年12月5日 |
+| 日期 | 2021年12月20日 |
 | 框架版本 | PaddlePaddle==2.2.0 |
 | 应用场景 | 超分辨率重建 |
 | 硬件支持 | GPU、CPU |
